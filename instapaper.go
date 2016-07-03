@@ -81,9 +81,8 @@ func collectRootOfEachTag(page *html.Node, whichTags []string) []*html.Node {
   return roots;
 }
 
-func (instapaper Instapaper) Parse() ([]Author, map[Author][]Article) {
-  dom, _ := html.Parse(instapaper.page)
-  roots := collectRootOfEachTag(dom, instapaper.tags)
+func (instapaper Instapaper) Parse(page *html.Node) ([]Author, map[Author][]Article) {
+  roots := collectRootOfEachTag(page, instapaper.tags)
   authors, articles := collectArticles(roots)
   return authors, articles
 }
