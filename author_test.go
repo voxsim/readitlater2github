@@ -6,11 +6,11 @@ import (
   "github.com/stretchr/testify/assert"
 )
 
-func TestSortAuthorsByName(t *testing.T) {
+func TestSortAuthorsByName(testRunner *testing.T) {
   sortedList := []Author{Author("name1"), Author("name2")}
   notSortedList := []Author{Author("name2"), Author("name1")}
 
   sort.Sort(ByName(notSortedList))
 
-  assert.Equal(t, notSortedList, sortedList, "they should be equal")
+  assert.Equal(testRunner, notSortedList, sortedList, "they should be equal")
 }

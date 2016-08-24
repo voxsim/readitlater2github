@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-type Readme struct {
+type Markdown struct {
   header string
   footer string
 }
 
-func (readme Readme) generate(authors []Author, articles map[Author][]Article) string {
-  content := readme.header
+func (markdown Markdown) generate(authors []Author, articles map[Author][]Article) string {
+  content := markdown.header
   for _, author := range authors {
     content += fmt.Sprintf("\n## %s\n", author)
     article := articles[author]
@@ -16,6 +16,6 @@ func (readme Readme) generate(authors []Author, articles map[Author][]Article) s
       content += fmt.Sprintf("- [%s](%s)\n", article.title, article.url)
     }
   }
-  content += readme.footer
+  content += markdown.footer
   return content
 }
