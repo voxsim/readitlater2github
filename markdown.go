@@ -13,7 +13,7 @@ func (markdown Markdown) generate(authors []Author, articles map[Author][]Articl
     content += fmt.Sprintf("\n## %s\n", author)
     article := articles[author]
     for _, article := range article {
-      content += fmt.Sprintf("- [%s](%s)\n", article.title, article.url)
+      content += article.String()
     }
   }
   content += markdown.footer

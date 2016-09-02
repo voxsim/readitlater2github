@@ -1,16 +1,38 @@
-package main
+package main_test
 
 import (
+  . "github.com/voxsim/readitlater2github"
+
+  . "github.com/onsi/ginkgo"
+  . "github.com/onsi/gomega"
+
   "sort"
-  "testing"
-  "github.com/stretchr/testify/assert"
 )
 
-func TestSortArticlesByTitle(testRunner *testing.T) {
-  sortedList := []Article{Article{"title1", ""}, Article{"title2", ""}}
-  notSortedList := []Article{Article{"title2", ""}, Article{"title1", ""}}
+var _ = Describe("Article", func() {
+  var (
+    article1  Article
+    article2  Article
+  )
 
-  sort.Sort(ByTitle(notSortedList))
+  BeforeEach(func() {
+    article1 = Article{
+      Title:  "title1",
+      Url: "",
+    }
 
-  assert.Equal(testRunner, notSortedList, sortedList, "they should be equal")
-}
+    article2 = Article{
+      Title:  "title1",
+      Url: "",
+    }
+  })
+
+  It("can be sorted by title", func() {
+    sortedList := []Article{article1, article2}
+    notSortedList := []Article{article2, article1}
+
+    sort.Sort(ByTitle(notSortedList))
+
+    Expect(notSortedList).To(Equal(sortedList))
+  })
+})

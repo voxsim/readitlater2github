@@ -27,7 +27,13 @@ func main() {
     os.Exit(1)
   }
 
-  authors, articles := instapaper.Parse(csv.NewReader(inputFile))
+  csvFile := csv.NewReader(inputFile)
+
+  authors, articles := instapaper.Parse(csvFile)
   output := markdown.generate(authors, articles)
   outputFile.WriteString(output)
+
+  outputFile.Sync()
+
+  defer outputFile.Close()
 }
