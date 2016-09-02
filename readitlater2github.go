@@ -13,7 +13,7 @@ func main() {
 
   header := "A list of useful articles and videos generated from my Instapaper archived list\n\n# Links\nWARNING: some of these topics are in italian language\n"
   footer := "\n# Are you a newbie? Do you need a study path?\nYou can enjoy [the joebew42' study path](https://github.com/joebew42/study-path) :)\n"
-  markdown := Markdown{header, footer}
+  report := Report{header, footer}
 
   inputFile, err := os.Open(parameters[0])
   if(err != nil) {
@@ -30,7 +30,7 @@ func main() {
   csvFile := csv.NewReader(inputFile)
 
   authors, articles := instapaper.Parse(csvFile)
-  output := markdown.generate(authors, articles)
+  output := report.generate(authors, articles)
   outputFile.WriteString(output)
 
   outputFile.Sync()

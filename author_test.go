@@ -1,16 +1,35 @@
-package main
+package main_test
 
 import (
+  . "github.com/voxsim/readitlater2github"
+
+  . "github.com/onsi/ginkgo"
+  . "github.com/onsi/gomega"
+
   "sort"
-  "testing"
-  "github.com/stretchr/testify/assert"
 )
 
-func TestSortAuthorsByName(testRunner *testing.T) {
-  sortedList := []Author{Author("name1"), Author("name2")}
-  notSortedList := []Author{Author("name2"), Author("name1")}
+var _ = Describe("Author", func() {
+  var (
+    author1  Author
+    author2  Author
+  )
 
-  sort.Sort(ByName(notSortedList))
+  BeforeEach(func() {
+    author1 = Author("name1")
+    author2 = Author("name2")
+  })
 
-  assert.Equal(testRunner, notSortedList, sortedList, "they should be equal")
-}
+  It("can be sorted by name", func() {
+    sortedList := []Author{author1, author2}
+    notSortedList := []Author{author2, author1}
+
+    sort.Sort(ByName(notSortedList))
+
+    Expect(notSortedList).To(Equal(sortedList))
+  })
+
+  It("prints name when it is converted in string", func() {
+    Expect(author1.ToString()).To(Equal("## name1\n"))
+  })
+})

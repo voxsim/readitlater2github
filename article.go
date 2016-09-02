@@ -7,7 +7,7 @@ type Article struct {
   Url string
 }
 
-func (article Article) String() string {
+func (article Article) ToString() string {
   return fmt.Sprintf("- [%s](%s)\n", article.Title, article.Url)
 }
 

@@ -18,12 +18,12 @@ var _ = Describe("Article", func() {
   BeforeEach(func() {
     article1 = Article{
       Title:  "title1",
-      Url: "",
+      Url: "url1",
     }
 
     article2 = Article{
-      Title:  "title1",
-      Url: "",
+      Title:  "title2",
+      Url: "url2",
     }
   })
 
@@ -34,5 +34,9 @@ var _ = Describe("Article", func() {
     sort.Sort(ByTitle(notSortedList))
 
     Expect(notSortedList).To(Equal(sortedList))
+  })
+
+  It("prints title and url when it is converted in string", func() {
+    Expect(article1.ToString()).To(Equal("- [title1](url1)\n"))
   })
 })

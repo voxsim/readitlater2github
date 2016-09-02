@@ -1,9 +1,15 @@
 package main
 
+import "fmt"
+
 type Author string
+
+func (author Author) ToString() string {
+  return fmt.Sprintf("## %s\n", author)
+}
 
 type ByName []Author
 
-func (a ByName) Len() int           { return len(a) }
-func (a ByName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ByName) Less(i, j int) bool { return a[i] < a[j] }
+func (author ByName) Len() int           { return len(author) }
+func (author ByName) Swap(i, j int)      { author[i], author[j] = author[j], author[i] }
+func (author ByName) Less(i, j int) bool { return author[i] < author[j] }
