@@ -1,39 +1,56 @@
 package main
 
-import "encoding/csv"
-import "fmt"
-import "os"
+import (
+  "encoding/csv"
+  "flag"
+  "fmt"
+  "os"
+  "strings"
+)
+
+func checked(file *os.File, err error) *os.File {
+  if(err != nil) {
+    fmt.Printf("Error: %s", err)
+    os.Exit(1)
+  }
+  return file
+}
+
+func processing_command_line(args []string) (*os.File, []string, Author) {
+  var input_file string
+  var tags string
+  var default_author string
+
+  cmdFlags := flag.NewFlagSet("event", flag.ContinueOnError)
+  cmdFlags.StringVar(&input_file, "input", "", "Input CSV File")
+  cmdFlags.StringVar(&input_file, "i", "", "Input CSV File")
+  cmdFlags.StringVar(&tags, "tags", "Archive", "A comma-separated list of selected tag")
+  cmdFlags.StringVar(&tags, "t", "Archive", "A comma-separated list of selected tag")
+  cmdFlags.StringVar(&default_author, "defaultauthor", "Not Categorized", "A default author used if an author is not recognized")
+  cmdFlags.StringVar(&default_author, "d", "Not Categorized", "A default author used if an author is not recognized")
+
+  if err := cmdFlags.Parse(args); err != nil {
+    fmt.Printf("Error processing command line: %s", err)
+    os.Exit(1)
+  }
+
+  return checked(os.Open(input_file)), strings.Split(tags, ","), Author(default_author)
+}
 
 func main() {
-  parameters := os.Args[1:]
+  args := os.Args[1:]
 
-  tags := []string{"Archive"}
-  default_author := Author("Not Categorized")
+  input_file, tags, default_author := processing_command_line(args);
+
   instapaper := Instapaper{tags, default_author}
 
-  header := "A list of useful articles and videos generated from my Instapaper archived list\n\n# Links\nWARNING: some of these topics are in italian language\n"
+  header := "A list of awesome articles and videos generated from my Instapaper archived list on Software Design, Testing, Public Speaking, etc.\n\nWARNING: some of them are in italian language\n"
   footer := "\n# Are you a newbie? Do you need a study path?\nYou can enjoy [the joebew42' study path](https://github.com/joebew42/study-path) :)\n"
   report := Report{header, footer}
 
-  inputFile, err := os.Open(parameters[0])
-  if(err != nil) {
-    fmt.Printf("inputFile error: %s", err)
-    os.Exit(1)
-  }
+  csv_file := csv.NewReader(input_file)
 
-  outputFile, err := os.OpenFile(parameters[1], os.O_WRONLY, os.ModeAppend)
-  if(err != nil) {
-    fmt.Printf("inputFile error: %s", err)
-    os.Exit(1)
-  }
-
-  csvFile := csv.NewReader(inputFile)
-
-  authors, articles := instapaper.Parse(csvFile)
+  authors, articles := instapaper.Parse(csv_file)
   output := report.generate(authors, articles)
-  outputFile.WriteString(output)
-
-  outputFile.Sync()
-
-  defer outputFile.Close()
+  fmt.Printf(output)
 }

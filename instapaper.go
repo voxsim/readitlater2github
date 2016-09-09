@@ -1,10 +1,11 @@
 package main
 
-import "encoding/csv"
-import "fmt"
-import "sort"
-import "strings"
-import "reflect"
+import (
+  "encoding/csv"
+  "sort"
+  "strings"
+  "reflect"
+)
 
 func in_array(val interface{}, array interface{}) bool {
   switch reflect.TypeOf(array).Kind() {
@@ -40,8 +41,6 @@ func (instapaper Instapaper) Parse(file *csv.Reader) ([]Author, map[Author][]Art
   bibliographies[instapaper.default_author] = []Article{}
 
   for record, err := file.Read(); err == nil; record, err = file.Read() {
-    fmt.Printf("processing: %s\n", record)
-
     url, title, _, tag := record[0], record[1], record[2], record[3]
     author, title := instapaper.retrieveAuthorAndTitle(title)
 
