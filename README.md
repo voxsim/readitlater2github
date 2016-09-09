@@ -11,6 +11,15 @@ go get -u github.com/voxsim/readitlater2github
 
 This will be installed in $GOBIN, defaulting to $GOPATH/bin. It must be in your $PATH to find it.
 
+## How to compile it
+``` sh
+mkdir -p $GOPATH/src/github.com/voxsim/
+cd $GOPATH/src/github.com/voxsim/
+git clone https://github.com/voxsim/readitlater2github.git
+govendor install +local
+```
+
+
 ## How to test it
 ``` sh
 go test
