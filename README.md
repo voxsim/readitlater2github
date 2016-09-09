@@ -4,10 +4,12 @@ This program generate a markdown file from a csv export file of my favorite Read
 I was reading and watching a lot of videos, but after a while I understand that I was not rigorous and my knowledge it was like a puzzle with big holes. I created this program to generate a file and push it every time I can; this permits me to see what I really do in the last week, month, year and maybe understand what people I enjoy to follow, found other speakers when I am looking for some conferences and so on.
 If you study and have passion I sincerely suggest to do something similar and review often your study growth.
 
-## How to compile it (after setting your gopath properly)
+## How to download it (after setting your $GOPATH properly)
 ``` sh
-go install
+go get -u github.com/voxsim/readitlater2github
 ```
+
+This will be installed in $GOBIN, defaulting to $GOPATH/bin. It must be in your $PATH to find it.
 
 ## How to test it
 ``` sh
